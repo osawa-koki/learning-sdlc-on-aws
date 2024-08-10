@@ -108,12 +108,50 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
+                  - codedeploy:*
                   - ec2:DescribeInstances
                   - ec2:DescribeInstanceStatus
-                  - ec2:TerminateInstances
+                  - tag:GetTags
+                  - tag:GetResources
+                  - s3:Get*
+                  - s3:List*
+                  - cloudwatch:PutMetricData
+                  - cloudwatch:GetMetricData
+                  - cloudwatch:GetMetricStatistics
+                  - cloudwatch:ListMetrics
+                  - sns:Publish
+                Resource: '*'
+
+  Ec2InstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: Ec2InstancePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:Get*
+                  - s3:List*
+                  - ssm:GetParameters
+                  - ssmmessages:*
+                  - ec2messages:*
+                  - cloudwatch:GetMetricData
+                  - cloudwatch:PutMetricData
+                  - cloudwatch:GetMetricStatistics
+                  - cloudwatch:ListMetrics
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
                   - codedeploy:*
-                  - s3:*
-                  - ssm:*
                 Resource: '*'
 
   CodePipeline:
@@ -298,7 +336,7 @@ Resources:
     Properties:
       InstanceProfileName: !Sub ${AWS::StackName}-instance-profile
       Roles:
-        - !Ref CodeDeployServiceRole
+        - !Ref Ec2InstanceRole
 
 Outputs:
   SSHPublicKey:
