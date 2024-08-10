@@ -321,7 +321,7 @@ Resources:
           apt update -y
           apt install -y ruby wget
           cd /home/ubuntu
-          wget https://aws-codedeploy-us-east-1.s3.amazonaws.com/latest/install
+          wget https://aws-codedeploy-ap-northeast-1.s3.amazonaws.com/latest/install
           chmod +x ./install
           ./install auto
           service codedeploy-agent start
