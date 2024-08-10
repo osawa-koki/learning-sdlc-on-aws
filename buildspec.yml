@@ -1,0 +1,38 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+    commands:
+      - echo Installing dependencies...
+      - pip install -r ./requirements.txt
+
+  pre_build:
+    commands:
+      - echo Testing...
+      - pytest
+
+  build:
+    commands:
+      - echo Build stage...
+
+  post_build:
+    commands:
+      - echo Post-build stage...
+
+artifacts:
+  files:
+    - '**/*'  # 出力するアーティファクトを指定
+
+  discard-paths: yes
+
+env:
+  variables:
+    EXAMPLE_VAR: example_value
+  # parameter-store:
+  #   SECRET_KEY: /path/to/secret/key
+
+cache:
+  paths:
+    - '/root/.cache/pip/**'
