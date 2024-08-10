@@ -26,8 +26,8 @@ artifacts:
 env:
   variables:
     EXAMPLE_VAR: example_value
-  parameter-store:
-    SECRET_KEY: /path/to/secret/key
+  # parameter-store:
+  #   SECRET_KEY: /path/to/secret/key
 
 cache:
   paths:
