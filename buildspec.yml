@@ -8,9 +8,10 @@ phases:
       - echo Installing dependencies...
       - pip install -r ./requirements.txt
 
-  pre_build:
+  test:
     commands:
-      - echo Pre-build stage...
+      - echo Testing...
+      - pytest
 
   build:
     commands:
