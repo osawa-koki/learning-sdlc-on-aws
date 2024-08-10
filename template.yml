@@ -109,12 +109,11 @@ Resources:
               - Effect: Allow
                 Action:
                   - ec2:DescribeInstances
-                  - ec2:TerminateInstances
                   - ec2:DescribeInstanceStatus
+                  - ec2:TerminateInstances
                   - codedeploy:*
-                  - s3:GetObject
-                  - s3:GetObjectVersion
-                  - s3:GetBucketVersioning
+                  - s3:*
+                  - ssm:*
                 Resource: '*'
 
   CodePipeline:
@@ -290,9 +289,16 @@ Resources:
           service codedeploy-agent start
           apt install -y python3 python3-pip
           pip3 install fastapi uvicorn
+      IamInstanceProfile: !Ref myIamInstanceProfile
       Tags:
         - Key: CodeDeploy
           Value: !Sub ${AWS::StackName}
+  myIamInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: !Sub ${AWS::StackName}-instance-profile
+      Roles:
+        - !Ref CodeDeployServiceRole
 
 Outputs:
   SSHPublicKey:
