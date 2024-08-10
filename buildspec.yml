@@ -1,0 +1,34 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Installing dependencies...
+
+  pre_build:
+    commands:
+      - echo Pre-build stage...
+
+  build:
+    commands:
+      - echo Build stage...
+
+  post_build:
+    commands:
+      - echo Post-build stage...
+
+artifacts:
+  files:
+    - '**/*'  # 出力するアーティファクトを指定
+
+  discard-paths: yes
+
+env:
+  variables:
+    EXAMPLE_VAR: example_value
+  parameter-store:
+    SECRET_KEY: /path/to/secret/key
+
+cache:
+  paths:
+    - '/root/.cache/pip/**'
