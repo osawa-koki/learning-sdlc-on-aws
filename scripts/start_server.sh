@@ -7,4 +7,4 @@ echo "installing requirements" >> /home/ec2-user/server.log
 pip3 install -r requirements.txt
 
 echo "starting server" >> /home/ec2-user/server.log
-uvicorn app.main:app --host 0.0.0.0 --port 8000 >> /home/ec2-user/server.log 2>&1 &
+nohup /home/ec2-user/.local/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000 >> /home/ec2-user/server.log 2>&1 &
