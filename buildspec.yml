@@ -23,9 +23,8 @@ phases:
 
 artifacts:
   files:
-    - '**/*'  # 出力するアーティファクトを指定
-
-  discard-paths: yes
+    - '**/*'
+  discard-paths: no
 
 env:
   variables:

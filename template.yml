@@ -290,6 +290,14 @@ Resources:
       FromPort: 443
       ToPort: 443
       CidrIp: 0.0.0.0/0
+  mySecurityGroupIngressHTTP8000:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !Ref mySecurityGroup
+      IpProtocol: tcp
+      FromPort: 8000
+      ToPort: 8000
+      CidrIp: 0.0.0.0/0
   mySucurityGroupEgressAll:
     Type: AWS::EC2::SecurityGroupEgress
     Properties:
@@ -306,7 +314,7 @@ Resources:
   myEc2Instance:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: ami-be4a24d9
+      ImageId: ami-0f38fb80a464efed4
       InstanceType: t2.micro
       KeyName: !Ref mySSHKey
       NetworkInterfaces:
@@ -318,15 +326,14 @@ Resources:
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash
-          apt update -y
-          apt install -y ruby wget
-          cd /home/ubuntu
+          yum update -y
+          yum install -y ruby wget
+          cd /home/ec2-user
           wget https://aws-codedeploy-ap-northeast-1.s3.amazonaws.com/latest/install
           chmod +x ./install
           ./install auto
           service codedeploy-agent start
-          apt install -y python3 python3-pip
-          pip3 install fastapi uvicorn
+          yum install -y python3 python3-pip
       IamInstanceProfile: !Ref myIamInstanceProfile
       Tags:
         - Key: CodeDeploy
