@@ -168,6 +168,10 @@ Resources:
       DeploymentGroupName: FastAPIDeploymentGroup
       ServiceRoleArn: !GetAtt CodeDeployServiceRole.Arn
       DeploymentConfigName: CodeDeployDefault.OneAtATime
+      Ec2TagFilters:
+        - Key: CodeDeploy
+          Value: !Sub ${AWS::StackName}
+          Type: KEY_AND_VALUE
 
   # ===== ===== =====
   # EC2
@@ -264,15 +268,18 @@ Resources:
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash
-          yum update -y
-          yum install -y ruby wget
-          cd /home/ec2-user
+          apt update -y
+          apt install -y ruby wget
+          cd /home/ubuntu
           wget https://aws-codedeploy-us-east-1.s3.amazonaws.com/latest/install
           chmod +x ./install
           ./install auto
           service codedeploy-agent start
-          yum install -y python3 python3-pip
+          apt install -y python3 python3-pip
           pip3 install fastapi uvicorn
+      Tags:
+        - Key: CodeDeploy
+          Value: !Sub ${AWS::StackName}
 
 Outputs:
   SSHPublicKey:
