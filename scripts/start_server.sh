@@ -1,5 +1,10 @@
 #!/bin/bash
 
+echo "cd to app directory" >> /home/ec2-user/server.log
 cd /home/ec2-user/app
+
+echo "installing requirements" >> /home/ec2-user/server.log
 pip3 install -r requirements.txt
-nohup uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+
+echo "starting server" >> /home/ec2-user/server.log
+nohup /home/ec2-user/.local/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000 >> /home/ec2-user/server.log 2>&1 &
