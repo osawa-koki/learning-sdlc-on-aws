@@ -1,2 +1,4 @@
-GitHubToken=hogehoge
+GitHubToken=ghp_hogehgoe
 GitHubRepo=osawa-koki/foofoo
+GitHubBranch=main
+SSHPublicKey='ssh-rsa AAAAABBBBBCCCCC osawa-koki@osawakokiAirv1.lan'
